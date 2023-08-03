@@ -14,7 +14,7 @@ use valence_core::Server;
 use valence_entity::query::UpdateEntityQuery;
 use valence_entity::{EntityId, EntityLayerId, OldEntityLayerId, OldPosition, Position};
 
-use crate::bvh::GetChunkPos;
+use crate::bvh::chunk::GetChunkPos;
 use crate::message::Messages;
 use crate::{Layer, UpdateLayersPostClientSet, UpdateLayersPreClientSet};
 

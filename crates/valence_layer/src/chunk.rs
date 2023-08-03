@@ -29,7 +29,7 @@ use valence_nbt::Compound;
 pub use self::chunk::{MAX_HEIGHT, *};
 pub use self::loaded::LoadedChunk;
 pub use self::unloaded::UnloadedChunk;
-use crate::bvh::GetChunkPos;
+use crate::bvh::chunk::GetChunkPos;
 use crate::message::Messages;
 use crate::{Layer, UpdateLayersPostClientSet, UpdateLayersPreClientSet};
 

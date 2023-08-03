@@ -4,7 +4,7 @@ use std::ops::Range;
 
 use valence_core::chunk_pos::{ChunkPos, ChunkView};
 
-use crate::bvh::{ChunkBvh, GetChunkPos};
+use crate::bvh::chunk::{ChunkBvh, GetChunkPos};
 
 /// A message buffer of global messages (`G`) and local messages (`L`) meant for
 /// consumption by clients. Local messages are those that have some spatial
