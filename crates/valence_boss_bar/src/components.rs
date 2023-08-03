@@ -1,3 +1,4 @@
+use std::borrow::Cow;
 use std::collections::BTreeSet;
 
 use bevy_ecs::prelude::{Bundle, Component, Entity};
@@ -6,11 +7,13 @@ use valence_core::protocol::{Decode, Encode};
 use valence_core::text::Text;
 use valence_core::uuid::UniqueId;
 
+use crate::packet::{ToPacketAction, BossBarAction};
+
 /// The bundle of components that make up a boss bar.
 #[derive(Bundle, Default)]
 pub struct BossBarBundle {
     pub id: UniqueId,
-    pub title: BossBarTitle,
+    pub title: BossBarTitle<'static>,
     pub health: BossBarHealth,
     pub style: BossBarStyle,
     pub flags: BossBarFlags,
@@ -19,11 +22,23 @@ pub struct BossBarBundle {
 
 /// The title of a boss bar.
 #[derive(Component, Clone, Default)]
-pub struct BossBarTitle(pub Text);
+pub struct BossBarTitle<'a>(pub Cow<'a, Text>);
+
+impl<'a> ToPacketAction<'a> for BossBarTitle<'a> {
+    fn to_packet_action(&self) -> BossBarAction<'a> {
+        BossBarAction::UpdateTitle(self.0.to_owned())
+    }
+}
 
 /// The health of a boss bar.
 #[derive(Component, Default)]
 pub struct BossBarHealth(pub f32);
+
+impl<'a> ToPacketAction<'a> for BossBarHealth {
+    fn to_packet_action(&self) -> BossBarAction<'a> {
+        BossBarAction::UpdateHealth(self.0)
+    }
+}
 
 /// The style of a boss bar. This includes the color and division of the boss
 /// bar.
@@ -33,8 +48,14 @@ pub struct BossBarStyle {
     pub division: BossBarDivision,
 }
 
+impl<'a> ToPacketAction<'a> for BossBarStyle {
+    fn to_packet_action(&self) -> BossBarAction<'a> {
+        BossBarAction::UpdateStyle(self.color, self.division)
+    }
+}
+
 /// The color of a boss bar.
-#[derive(Component, Copy, Clone, PartialEq, Eq, Default, Debug, Encode, Decode)]
+#[derive(Copy, Clone, PartialEq, Eq, Default, Debug, Encode, Decode)]
 pub enum BossBarColor {
     #[default]
     Pink,
@@ -47,7 +68,7 @@ pub enum BossBarColor {
 }
 
 /// The division of a boss bar.
-#[derive(Component, Copy, Clone, PartialEq, Eq, Default, Debug, Encode, Decode)]
+#[derive(Copy, Clone, PartialEq, Eq, Default, Debug, Encode, Decode)]
 pub enum BossBarDivision {
     #[default]
     NoDivision,
@@ -66,6 +87,12 @@ pub struct BossBarFlags {
     pub create_fog: bool,
     #[bits(5)]
     _pad: u8,
+}
+
+impl<'a> ToPacketAction<'a> for BossBarFlags {
+    fn to_packet_action(&self) -> BossBarAction<'a> {
+        BossBarAction::UpdateFlags(*self)
+    }
 }
 
 /// The viewers of a boss bar.

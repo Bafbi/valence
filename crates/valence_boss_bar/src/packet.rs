@@ -28,3 +28,8 @@ pub enum BossBarAction<'a> {
     UpdateStyle(BossBarColor, BossBarDivision),
     UpdateFlags(BossBarFlags),
 }
+
+/// Trait for converting a component to a boss bar action.
+pub trait ToPacketAction<'a> {
+    fn to_packet_action(&self) -> BossBarAction<'a>;
+}
