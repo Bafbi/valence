@@ -62,6 +62,7 @@ valence_scoreboard = { workspace = true, optional = true }
 valence_world_border = { workspace = true, optional = true }
 valence_packet.workspace = true
 valence_weather = { workspace = true, optional = true }
+valence_event.workspace = true
 
 [dev-dependencies]
 anyhow.workspace = true
@@ -189,5 +190,6 @@ valence_world_border.path = "crates/valence_world_border"
 valence_boss_bar.path = "crates/valence_boss_bar"
 valence_packet.path = "crates/valence_packet"
 valence_weather.path = "crates/valence_weather"
+valence_event.path = "crates/valence_event"
 valence.path = "."
 zip = "0.6.3"

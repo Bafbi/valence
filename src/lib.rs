@@ -52,7 +52,7 @@ pub use {
     bevy_app as app, bevy_ecs as ecs, glam, valence_biome as biome, valence_block as block,
     valence_client as client, valence_dimension as dimension, valence_entity as entity,
     valence_layer as layer, valence_nbt as nbt, valence_packet as packet,
-    valence_registry as registry,
+    valence_registry as registry, valence_event as event,
 };
 
 /// Contains the most frequently used items in Valence projects.
